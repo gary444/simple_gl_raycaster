@@ -73,57 +73,6 @@ float g_sampling_distance = 0.001f;
 
 
 
-
-
-
-void update_camera() {
-    glm::vec4 cam_pos = cam_mat[3];
-
-    glm::vec4 right_vec = cam_mat[0];
-    glm::vec4 up_vec = cam_mat[1];
-    glm::vec4 forward_vec = cam_mat[2];
-
-    bool changed_cam_pos = false;
-
-    if (move_forward) {
-        cam_pos -= cam_speed * forward_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;
-    }
-
-    if(move_backward) {
-        cam_pos += cam_speed * forward_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;        
-    }
-
-    //
-    if (move_right) {
-        cam_pos += cam_speed * right_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;
-    }
-
-    if(move_left) {
-        cam_pos -= cam_speed * right_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;        
-    }
-
-    if(move_up) {
-        cam_pos += cam_speed * up_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;        
-    }
-
-    if(move_down) {
-        cam_pos -= cam_speed * up_vec * elapsed_seconds_last_frame;
-        changed_cam_pos = true;        
-    }
-
-    if(changed_cam_pos) {
-        cam_mat[3] = cam_pos;
-    }   
-    
-
-}
-
-
 double last_mouse_pos_x = 0.0;
 double last_mouse_pos_y = 0.0;
 
@@ -132,17 +81,9 @@ float delta_y_mouse = 0.0;
 
 float rotation_sensitivity = 0.002f;
 
-
-// const GLuint WIDTH = 2560, HEIGHT = 1440;
-
-
 float rendering_field_of_view = 60.0f;
 float rendering_clip_near = 0.1f;
 float rendering_clip_far  = 1000.0f;
-
-
-auto perspective_mat = 
-    glm::perspective(glm::radians(rendering_field_of_view), 1.0f, rendering_clip_near, rendering_clip_far);
 
 
 const GLuint volume_texture_unit = 0;
@@ -197,22 +138,6 @@ int main(int argc,  char * argv[]) {
     }
 
 
-    // float frame_rate = 1.f;
-    // if (cmd_option_exists(argv, argv+argc, "-r") ){
-    //     frame_rate = atof(get_cmd_option(argv, argv+argc, "-r"));
-    //     time_between_frames = 1.f / frame_rate;
-    //     std::cout << "Frame Rate: " << frame_rate << std::endl;
-    // }
-
-
-    // double util = 0;
-    // if( cmd_option_exists(argv, argv+argc, "-u") ) {
-    //     util = atof(get_cmd_option(argv, argv+argc, "-u"));
-    // }
-
-
-
-
     const std::string volume_path = argv[1];
     const std::string img_out_path = argv[2];
     const glm::vec2 img_res ( atoi(argv[3]), atoi(argv[4]) );
@@ -240,19 +165,9 @@ int main(int argc,  char * argv[]) {
     grt::gl::Shader rayshader("resources/shaders/texture_passthrough.vert", "resources/shaders/raycast_orthogonal.frag");
 	rayshader.Use();  
 
-
-
-    // uint32_t current_timestep_to_render = UINT_MAX;
-    // uint32_t last_timestep_rendered = UINT_MAX;
-    // float elapsed_seconds_since_program_start = 0;
-    // bool frame_is_update_frame = false;
-
     glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
-    // glBindTexture(GL_TEXTURE_3D, volume_texture);
 
     glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
-//      glUniformMatrix4fv(glGetUniformLocation(rayshader.Program, "MVP"), 1, GL_FALSE, glm::value_ptr(mvp_mat));
-//      glUniform3fv(glGetUniformLocation(rayshader.Program, "camera_location"), 1, glm::value_ptr(camera_location));
     glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
 
 
@@ -263,89 +178,9 @@ int main(int argc,  char * argv[]) {
 	grt::gl::download_default_framebuffer_to_image(img_res.x, img_res.y, img_out_path);
 
 
-   //  //main loop
-   //  while ( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS
-   //         && !glfwWindowShouldClose( window ) )
-   //  {
-
-   //              //update timestep according to time passed since program start
-   //      //could lead to skipped frames if playback rate is too high
-   //      auto start_timestamp = std::chrono::steady_clock::now();
-   //      current_timestep_to_render = (uint32_t)(elapsed_seconds_since_program_start / time_between_frames);
-   //      frame_is_update_frame = (current_timestep_to_render != last_timestep_rendered);
-
-   //      // setup model matrices
-   //      auto view_mat = glm::inverse(cam_mat);
-   //      //standard kinect view
-   //      view_mat = view_mat 
-   //                  * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.8f, -3.f) ) //normal avatar view
-   //                  * glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f) )// normal avatar view
-   //                  ;
-   //      auto mvp_mat = perspective_mat * view_mat;
-
-   //      glClearColor( 0.85f, 0.862, 0.878f,1.0f );
-   //      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-   //      if (frame_is_update_frame){
-
-   //          std::cout << "CURRENT FRAME : " << current_timestep_to_render << std::endl;
-
-   //          last_timestep_rendered = current_timestep_to_render;
-
-   //      }
-
-
-   //      rayshader.Use();
-        
-   //      const glm::vec4 camera_translate = glm::column(glm::inverse(view_mat), 3);
-   //      const glm::vec3 camera_location = glm::vec3(camera_translate.x, camera_translate.y, camera_translate.z);
-        
-
-   //      glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
-   //      glUniformMatrix4fv(glGetUniformLocation(rayshader.Program, "MVP"), 1, GL_FALSE, glm::value_ptr(mvp_mat));
-   //      glUniform3fv(glGetUniformLocation(rayshader.Program, "camera_location"), 1, glm::value_ptr(camera_location));
-   //      glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
-   //      cube.draw();
-
-
-   //      if (1) {
-   //      	// download default framebuffer
-
-			// grt::gl::download_default_framebuffer_to_image(img_res.x, img_res.y, img_out_path);
-
-			// break;
-
-
-   //      }
-
-
-
-   //      glfwPollEvents( );
-   //      glfwSwapBuffers( window );
-        
-   //      auto end_timestamp = std::chrono::steady_clock::now();
-   //      float const elapsed_micro_seconds = std::chrono::duration_cast<std::chrono::microseconds>(end_timestamp - start_timestamp).count();
-   //      if (keep_playing) elapsed_seconds_since_program_start += elapsed_micro_seconds / 1000000.0;
-   //      elapsed_seconds_last_frame =  elapsed_micro_seconds / 1000000.0;
-   //      // std::cout << "Frame time: " << elapsed_micro_seconds / 1000.0  << " ms" << std::endl;
-
-
-   //      update_camera();
-
-
-
-
-
-   //  }
-
-
-
     
     glfwTerminate( );
-    
-
-
-
+   
     return 0;
     
 }
