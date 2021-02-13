@@ -173,13 +173,16 @@ file(GLOB_RECURSE HELPER_FILES ${PROJECT_SOURCE_DIR}/helpers/*)
 file(GLOB_RECURSE GL_FILES ${PROJECT_SOURCE_DIR}/gl/*)
 file(GLOB_RECURSE VOLUME_FILES ${PROJECT_SOURCE_DIR}/volume/*)
 
+set(THIRD_PARTY_PROJECTS_DIR ${CMAKE_SOURCE_DIR}/third_party)
+
 # message(${GL_FILES})
 
-set(RAYCAST_APP_NAME "basic_gl_raycast")
-add_executable(${RAYCAST_APP_NAME} main.cpp ${HELPER_FILES} ${GL_FILES} ${VOLUME_FILES} )
-target_link_libraries(${RAYCAST_APP_NAME} ${OpenCV_LIBS} )
+include_directories(${GLFW_INCLUDE_DIRS} ${THIRD_PARTY_PROJECTS_DIR} )
 
-include_directories(${GLFW_INCLUDE_DIRS})
+
+set(RAYCAST_APP_NAME "basic_gl_raycast")
+add_executable(${RAYCAST_APP_NAME} ${RAYCAST_APP_NAME}.cpp ${HELPER_FILES} ${GL_FILES} ${VOLUME_FILES} )
+target_link_libraries(${RAYCAST_APP_NAME} ${OpenCV_LIBS} )
 
 
 target_link_libraries(${RAYCAST_APP_NAME}
@@ -188,6 +191,22 @@ target_link_libraries(${RAYCAST_APP_NAME}
         ${GLEW_LIBRARIES}
         glfw
         )
+
+set(RAYCAST_APP_NAME "raycast_to_image")
+add_executable(${RAYCAST_APP_NAME} ${RAYCAST_APP_NAME}.cpp ${HELPER_FILES} ${GL_FILES} ${VOLUME_FILES} )
+target_link_libraries(${RAYCAST_APP_NAME} ${OpenCV_LIBS} )
+
+# include_directories(${GLFW_INCLUDE_DIRS} )
+
+target_link_libraries(${RAYCAST_APP_NAME}
+        ${OPENGL_LIBRARY}
+        ${GLUT_LIBRARY}
+        ${GLEW_LIBRARIES}
+        glfw
+        )
+
+
+
 
 
 
