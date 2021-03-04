@@ -206,7 +206,16 @@ target_link_libraries(${RAYCAST_APP_NAME}
         )
 
 
-
+set(RAYCAST_APP_NAME "raycast_cfd_volume")
+add_executable(${RAYCAST_APP_NAME} ${RAYCAST_APP_NAME}.cpp ${HELPER_FILES} ${GL_FILES} ${VOLUME_FILES} )
+target_link_libraries(${RAYCAST_APP_NAME} ${OpenCV_LIBS} )
+# include_directories(${GLFW_INCLUDE_DIRS} )
+target_link_libraries(${RAYCAST_APP_NAME}
+        ${OPENGL_LIBRARY}
+        ${GLUT_LIBRARY}
+        ${GLEW_LIBRARIES}
+        glfw
+        )
 
 
 

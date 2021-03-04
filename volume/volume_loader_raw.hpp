@@ -9,7 +9,7 @@
 
 #include <glm/vec3.hpp>
 
-typedef std::vector<uint8_t> volume_data_type;
+typedef std::vector<float> volume_data_type;
 
 class Volume_loader_raw
 {
