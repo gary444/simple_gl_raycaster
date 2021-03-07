@@ -164,6 +164,8 @@ bool read_volume(const std::string& volume_string, grt::gl::Cube& cube){
     // calculating max volume bounds of volume (0.0 .. 1.0)
     g_max_volume_bounds = glm::vec3(g_vol_dimensions) / glm::vec3((float)max_dim);
 
+    std::cout << "Volume bounds: " << g_max_volume_bounds.x << " x " << g_max_volume_bounds.y << " x " << g_max_volume_bounds.z << std::endl;
+    
     // loading volume file data
     g_volume_data = g_volume_loader.load_volume(volume_string);
     g_channel_size = g_volume_loader.get_bit_per_channel(volume_string) / 8;
@@ -174,7 +176,7 @@ bool read_volume(const std::string& volume_string, grt::gl::Cube& cube){
     cube = grt::gl::Cube(glm::vec3(0.0, 0.0, 0.0), g_max_volume_bounds);
 
     glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
-    volume_texture = createTexture3D(g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z, g_channel_size, g_channel_count, GL_FLOAT, (char*)&g_volume_data[0]);
+    volume_texture = createTexture3D(g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z, g_channel_size, g_channel_count, GL_UNSIGNED_BYTE, (char*)&g_volume_data[0]);
 
     return 0 != volume_texture;
 
@@ -228,9 +230,9 @@ int main(int argc,  char * argv[]) {
         return -1;
     }
 
+    std::cout << "Created volume" << std::endl;
 
-
-    grt::gl::Shader rayshader("resources/shaders/raycast.vert", "resources/shaders/raycast_occupancy.frag");
+    grt::gl::Shader rayshader("resources/shaders/raycast.vert", "resources/shaders/raycast_cfd.frag");
   
 
     uint32_t current_timestep_to_render = UINT_MAX;
@@ -258,7 +260,7 @@ int main(int argc,  char * argv[]) {
         auto view_mat = glm::inverse(cam_mat);
         //standard kinect view
         view_mat = view_mat 
-                    * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.8f, -3.f) ) //normal avatar view
+                    * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, -2.f) ) //normal avatar view
                     * glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f) )// normal avatar view
                     ;
         auto mvp_mat = perspective_mat * view_mat;

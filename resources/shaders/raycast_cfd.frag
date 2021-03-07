@@ -3,6 +3,14 @@
 #extension GL_ARB_explicit_attrib_location : require
 
 
+// mode 0 : average IP
+// mode 1 : max IP
+// mode 2 : FTB compositing
+
+
+#define MODE 2
+
+
 in vec3 ray_entry_position;
 
 layout(location = 0) out vec4 FragColor;
@@ -28,7 +36,7 @@ uniform vec3    max_bounds;
 const float transparency_epsilon = 0.001;
 
 
-const float scale_factor = 10000000000.f;
+const float scale_factor = 1.f;
 
 bool
 inside_volume_bounds(const in vec3 sampling_position)
@@ -64,7 +72,8 @@ void main()
 
 
 
-#if 1
+#if MODE == 0
+
     float max_value = 0.f;
 
     // the traversal loop,
@@ -85,7 +94,10 @@ void main()
     }
 
     out_col = vec4(max_value, max_value, max_value, 1.f);
-#else
+#endif
+
+#if MODE == 1
+
     float sum = 0.f;
     float samples = 0.f;
 
@@ -96,7 +108,7 @@ void main()
 
 
         // assume cube is in 0 - 1 space anyway
-        float sample_val = texture(volume_texture, sampling_pos).r * scale_factor;
+        float sample_val = texture(volume_texture, sampling_pos).r;
 
         sum += sample_val;
         samples += 1.f;
@@ -108,9 +120,45 @@ void main()
         inside_volume  = inside_volume_bounds(sampling_pos);
     }
     sum /= samples;
+    out_col = vec4(sum,sum,sum,1.f);
+
 #endif
 
-    out_col = vec4(sum,sum,sum,1.f);
+
+
+#if MODE == 2
+
+    float accum_opacity = 0.f;
+
+    // the traversal loop,
+    // termination when the sampling position is outside volume boundary
+    while (inside_volume)
+    {      
+
+
+        // assume cube is in 0 - 1 space anyway
+        float sample_val = texture(volume_texture, sampling_pos).r;
+
+        vec3 intensity = vec3(sample_val, sample_val, sample_val);
+        float opacity = 0.01f;
+
+        intensity *= opacity;
+
+        out_col.xyz += (intensity * (1.f - accum_opacity));
+
+        accum_opacity = 1.f - (1.f - opacity) * (1.f - accum_opacity);
+
+        // increment the ray sampling position
+        sampling_pos  += ray_increment;
+
+        // update the loop termination condition
+        inside_volume  = inside_volume_bounds(sampling_pos);
+    }
+
+    out_col.w = accum_opacity;
+
+#endif
+
 
     // return the calculated color value
     FragColor = out_col;

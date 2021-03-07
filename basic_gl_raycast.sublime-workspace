@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"max",
+				"max_value"
+			],
+			[
 				"ray",
 				"ray_direction"
 			],
@@ -492,10 +496,6 @@
 				"minSvoDepth"
 			],
 			[
-				"max",
-				"maxSvoDepth"
-			],
-			[
 				"reque",
 				"_requestedK"
 			],
@@ -520,64 +520,19 @@
 	"buffers":
 	[
 		{
-			"file": "raycast_to_image.cpp",
+			"file": "raycast_cfd_volume.cpp",
 			"settings":
 			{
-				"buffer_size": 4856,
+				"buffer_size": 8674,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "raycast_to_image.cpp"
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "gl/Textures.hpp",
 			"settings":
 			{
-				"buffer_size": 392,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/shaders/raycast_orthogonal.frag",
-			"settings":
-			{
-				"buffer_size": 2315,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "raycast_orthogonal.frag"
-			}
-		},
-		{
-			"file": "resources/shaders/texture_passthrough.vert",
-			"settings":
-			{
-				"buffer_size": 420,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gl/ScreenQuad.cpp",
-			"settings":
-			{
-				"buffer_size": 2294,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gl/ScreenQuad.hpp",
-			"settings":
-			{
-				"buffer_size": 1270,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gl/GLUtil.cpp",
-			"settings":
-			{
-				"buffer_size": 1347,
+				"buffer_size": 596,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -586,53 +541,19 @@
 			"file": "gl/Textures.cpp",
 			"settings":
 			{
-				"buffer_size": 1805,
+				"buffer_size": 2918,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/shaders/raycast_occupancy.frag",
+			"file": "resources/shaders/raycast_cfd.frag",
 			"settings":
 			{
-				"buffer_size": 2112,
+				"buffer_size": 2824,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 5583,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "volume/volume_loader_raw.cpp",
-			"settings":
-			{
-				"buffer_size": 2588,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "volume/volume_loader_raw.hpp",
-			"settings":
-			{
-				"buffer_size": 558,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gl/Cube.cpp",
-			"settings":
-			{
-				"buffer_size": 5564,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Unix",
+				"name": "raycast_cfd.frag"
 			}
 		}
 	],
@@ -672,15 +593,27 @@
 	},
 	"expanded_folders":
 	[
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast",
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast/gl",
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast/helpers",
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast/resources",
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast/resources/shaders",
-		"/home/hoqe4365/Documents/repos/basic_gl_raycast/volume"
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/helpers",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume"
 	],
 	"file_history":
 	[
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_to_image.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/texture_passthrough.vert",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/ScreenQuad.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/ScreenQuad.hpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/GLUtil.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_occupancy.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/CMakeLists.txt",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume/volume_loader_raw.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Cube.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume/volume_loader_raw.hpp",
 		"/home/hoqe4365/Documents/repos/basic_gl_raycast/basic_gl_raycast.cpp",
 		"/home/hoqe4365/Documents/repos/basic_gl_raycast/gl/Textures.hpp",
 		"/home/hoqe4365/Documents/repos/basic_gl_raycast/gl/Textures.cpp",
@@ -796,23 +729,11 @@
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/src/gl/ViewControls.cpp",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/cmake/modules/FindGLEW.cmake",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/src/4DPlayers/TSDFCompressionPlayer.cpp",
-		"/tmp/mozilla_wabi70150/box.cpp",
-		"/tmp/mozilla_wabi70150/tracer.cpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/src/4DPlayers/TSDFCudaCompressionPlayer.cpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/apps/depth_image_viewer/CMakeLists.txt",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/CMakeFiles/thesis_depth_image_viewer_app.dir/parsers.cpp.o",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/     grt",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/     glUniform1i(glGetUniformLocation(apron_extraction_shader.Program, \"side_type\"), SideType",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/             int64_t wrapped_around_timestap_idx = current_timestep_idx < last_requested_timestep_idx_ ? current_timestep_idx + getTimeSteps() ",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/             int64_t wrapped_around_timestap_idx = current_timestep_idx > last_requested_timestep_idx_ ? current_timestep_idx + getTimeSteps() ",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/             std",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/build/                 auto pure_cut_update_time_end = std",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/grt/CutSelection/CutSelectUtilities.hpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/grt/TimeTree/KWayTimeTree.hpp"
+		"/tmp/mozilla_wabi70150/box.cpp"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -1169,28 +1090,29 @@
 			[
 				{
 					"buffer": 0,
-					"file": "raycast_to_image.cpp",
+					"file": "raycast_cfd_volume.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4856,
+						"buffer_size": 8674,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4435,
-								4435
+								4270,
+								4270
 							]
 						],
 						"settings":
 						{
-							"auto_name": "raycast_to_image.cpp",
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2605.0,
+						"translation.y": 2381.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1199,18 +1121,18 @@
 				{
 					"buffer": 1,
 					"file": "gl/Textures.hpp",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 392,
+						"buffer_size": 596,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								562,
+								562
 							]
 						],
 						"settings":
@@ -1219,264 +1141,26 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "resources/shaders/raycast_orthogonal.frag",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2315,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1646,
-								1646
-							]
-						],
-						"settings":
-						{
-							"auto_name": "raycast_orthogonal.frag",
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 846.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "resources/shaders/texture_passthrough.vert",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 420,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "gl/ScreenQuad.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2294,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1719,
-								1719
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 702.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "gl/ScreenQuad.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1270,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1108,
-								1108
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "gl/GLUtil.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1347,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								211,
-								211
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 37.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "gl/Textures.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1805,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1196,
-								1196
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 102.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "resources/shaders/raycast_occupancy.frag",
+					"buffer": 2,
+					"file": "gl/Textures.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2112,
+						"buffer_size": 2918,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2112,
-								2112
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 909.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5583,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4520,
-								4520
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3078.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "volume/volume_loader_raw.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2588,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								90,
-								90
+								1993,
+								1993
 							]
 						],
 						"settings":
@@ -1486,68 +1170,39 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 240.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "volume/volume_loader_raw.hpp",
+					"buffer": 3,
+					"file": "resources/shaders/raycast_cfd.frag",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 558,
+						"buffer_size": 2824,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								213,
-								213
+								1271,
+								1271
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"auto_name": "raycast_cfd.frag",
+							"syntax": "Packages/C++/C.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 918.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "gl/Cube.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5564,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								373,
-								373
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2036.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1600,7 +1255,7 @@
 	"project": "basic_gl_raycast.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
