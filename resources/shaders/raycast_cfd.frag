@@ -38,6 +38,17 @@ const float transparency_epsilon = 0.001;
 
 const float scale_factor = 1.f;
 
+
+float sample_volume (vec3 sampling_pos) {
+
+    // correct for non-unit cubes
+    vec3 sample_coords = sampling_pos / max_bounds;
+
+    float sample_val = texture(volume_texture, sample_coords).r;
+
+    return sample_val;
+}
+
 bool
 inside_volume_bounds(const in vec3 sampling_position)
 {
@@ -82,7 +93,8 @@ void main()
     {      
 
         // assume cube is in 0 - 1 space anyway : todo - correct this!
-        float sample_val = texture(volume_texture, sampling_pos).r * scale_factor;
+        float sample_val = sample_volume(sampling_pos); 
+        sample_val *= scale_factor;
 
         max_value = max (max_value, sample_val);
 
@@ -108,7 +120,7 @@ void main()
 
 
         // assume cube is in 0 - 1 space anyway
-        float sample_val = texture(volume_texture, sampling_pos).r;
+        float sample_val = sample_volume(sampling_pos); 
 
         sum += sample_val;
         samples += 1.f;
@@ -137,7 +149,7 @@ void main()
 
 
         // assume cube is in 0 - 1 space anyway
-        float sample_val = texture(volume_texture, sampling_pos).r;
+        float sample_val = sample_volume(sampling_pos); 
 
         vec3 intensity = vec3(sample_val, sample_val, sample_val);
         float opacity = 0.01f;
