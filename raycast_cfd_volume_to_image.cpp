@@ -23,7 +23,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
-
+#include <glm/gtx/string_cast.hpp>
 
 
 
@@ -35,7 +35,9 @@
 
 #include "gl/Cube.hpp"
 #include "gl/GLSetup.hpp"
+#include "gl/ScreenQuad.hpp"
 #include "gl/Textures.hpp"
+#include "gl/GLUtil.hpp"
 
 #include "volume/volume_loader_raw.hpp"
 
@@ -190,10 +192,10 @@ int main(int argc,  char * argv[]) {
 
     
     if( cmd_option_exists(argv, argv+argc, "-h") 
-        || argc < 2) 
+        || argc < 4) 
     { 
         std::cout << "simple volume raycasting app\n";
-        std::cout << "usage: <app_name> <path_to_volume> [options...] \nOptions:\n";
+        std::cout << "usage: <app_name> <path_to_volume> <output image width> <output image height> [options...] \nOptions:\n";
         // std::cout << "\t-f:  \n";
 
         return -1;
@@ -214,9 +216,17 @@ int main(int argc,  char * argv[]) {
     // }
 
 
+
+    // const std::string volume_path = argv[1];
+    const std::string img_out_path = argv[2];
+    const glm::vec2 img_res ( atoi(argv[3]), atoi(argv[4]) );
+
+    std::cout << "Render resolution: " << glm::to_string(img_res) << std::endl;
+
+
     std::cout << "initialising GL..." << std::endl;
     GLFWwindow *window = nullptr;
-    if (!setupGL(window, WIDTH, HEIGHT)) {
+    if (!setupGL(window, img_res.x, img_res.y)) {
         std::cout << "Error initialising GL" << std::endl;
     }
 
@@ -234,78 +244,82 @@ int main(int argc,  char * argv[]) {
 
     std::cout << "Created volume" << std::endl;
 
-    grt::gl::Shader rayshader("resources/shaders/raycast.vert", "resources/shaders/raycast_cfd.frag");
-  
-
-    uint32_t current_timestep_to_render = UINT_MAX;
-    uint32_t last_timestep_rendered = UINT_MAX;
-    float elapsed_seconds_since_program_start = 0;
-
-    bool frame_is_update_frame = false;
+    // grt::gl::Shader rayshader("resources/shaders/raycast.vert", "resources/shaders/raycast_cfd.frag");
+    grt::gl::Shader rayshader("resources/shaders/texture_passthrough.vert", "resources/shaders/raycast_orthogonal_cfd.frag");
+	rayshader.Use();  
 
     glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
-    // glBindTexture(GL_TEXTURE_3D, volume_texture);
+
+    glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
+    glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
 
 
-    //main loop
-    while ( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS
-           && !glfwWindowShouldClose( window ) )
-    {
-
-                //update timestep according to time passed since program start
-        //could lead to skipped frames if playback rate is too high
-        auto start_timestamp = std::chrono::steady_clock::now();
-        current_timestep_to_render = (uint32_t)(elapsed_seconds_since_program_start / time_between_frames);
-        frame_is_update_frame = (current_timestep_to_render != last_timestep_rendered);
-
-        // setup model matrices
-        auto view_mat = glm::inverse(cam_mat);
-        //standard kinect view
-        view_mat = view_mat 
-                    * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, -2.f) ) //normal avatar view
-                    * glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f) )// normal avatar view
-                    ;
-        auto mvp_mat = perspective_mat * view_mat;
-
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor( 0.85f, 0.862, 0.878f,1.0f );
-
-        if (frame_is_update_frame){
-
-            std::cout << "CURRENT FRAME : " << current_timestep_to_render << std::endl;
-
-            last_timestep_rendered = current_timestep_to_render;
-
-        }
+    // render full screen quad
+    grt::gl::ScreenQuad::render();
 
 
-        rayshader.Use();
+    // download rendered image
+	grt::gl::download_default_framebuffer_to_image(img_res.x, img_res.y, img_out_path);
+
+    // //main loop
+    // while ( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS
+    //        && !glfwWindowShouldClose( window ) )
+    // {
+
+        //         //update timestep according to time passed since program start
+        // //could lead to skipped frames if playback rate is too high
+        // auto start_timestamp = std::chrono::steady_clock::now();
+        // current_timestep_to_render = (uint32_t)(elapsed_seconds_since_program_start / time_between_frames);
+        // frame_is_update_frame = (current_timestep_to_render != last_timestep_rendered);
+
+        // // setup model matrices
+        // auto view_mat = glm::inverse(cam_mat);
+        // //standard kinect view
+        // view_mat = view_mat 
+        //             * glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, -2.f) ) //normal avatar view
+        //             * glm::rotate(glm::mat4(1.0f), float(M_PI), glm::vec3(0.0f, 1.0f, 0.0f) )// normal avatar view
+        //             ;
+        // auto mvp_mat = perspective_mat * view_mat;
+
+        // glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glClearColor( 0.85f, 0.862, 0.878f,1.0f );
+
+        // if (frame_is_update_frame){
+
+        //     std::cout << "CURRENT FRAME : " << current_timestep_to_render << std::endl;
+
+        //     last_timestep_rendered = current_timestep_to_render;
+
+        // }
+
+
+        // rayshader.Use();
         
-        const glm::vec4 camera_translate = glm::column(glm::inverse(view_mat), 3);
-        const glm::vec3 camera_location = glm::vec3(camera_translate.x, camera_translate.y, camera_translate.z);
+        // const glm::vec4 camera_translate = glm::column(glm::inverse(view_mat), 3);
+        // const glm::vec3 camera_location = glm::vec3(camera_translate.x, camera_translate.y, camera_translate.z);
         
 
-        glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
-        glUniformMatrix4fv(glGetUniformLocation(rayshader.Program, "MVP"), 1, GL_FALSE, glm::value_ptr(mvp_mat));
-        glUniform3fv(glGetUniformLocation(rayshader.Program, "camera_location"), 1, glm::value_ptr(camera_location));
-        glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
-        cube.draw();
+        // glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
+        // glUniformMatrix4fv(glGetUniformLocation(rayshader.Program, "MVP"), 1, GL_FALSE, glm::value_ptr(mvp_mat));
+        // glUniform3fv(glGetUniformLocation(rayshader.Program, "camera_location"), 1, glm::value_ptr(camera_location));
+        // glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
+        // cube.draw();
 
 
 
-        glfwPollEvents( );
-        glfwSwapBuffers( window );
+        // glfwPollEvents( );
+        // glfwSwapBuffers( window );
         
-        auto end_timestamp = std::chrono::steady_clock::now();
-        float const elapsed_micro_seconds = std::chrono::duration_cast<std::chrono::microseconds>(end_timestamp - start_timestamp).count();
-        if (keep_playing) elapsed_seconds_since_program_start += elapsed_micro_seconds / 1000000.0;
-        elapsed_seconds_last_frame =  elapsed_micro_seconds / 1000000.0;
-        // std::cout << "Frame time: " << elapsed_micro_seconds / 1000.0  << " ms" << std::endl;
+        // auto end_timestamp = std::chrono::steady_clock::now();
+        // float const elapsed_micro_seconds = std::chrono::duration_cast<std::chrono::microseconds>(end_timestamp - start_timestamp).count();
+        // if (keep_playing) elapsed_seconds_since_program_start += elapsed_micro_seconds / 1000000.0;
+        // elapsed_seconds_last_frame =  elapsed_micro_seconds / 1000000.0;
+        // // std::cout << "Frame time: " << elapsed_micro_seconds / 1000.0  << " ms" << std::endl;
 
 
-        update_camera();
+        // update_camera();
 
-    }
+    // }
 
 
 

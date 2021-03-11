@@ -56,6 +56,12 @@ inside_volume_bounds(const in vec3 sampling_position)
             && all(lessThanEqual(sampling_position, max_bounds)));
 }
 
+// // Gladstone-Dale constant for air at around 290 Kelvin according to Brownlee et al 
+// const float K = 0.226;
+// float get_refractive_index (float density) {
+//     // Gladstone-Dale relation
+//     return (K * density) + 1;
+// }
 
 
 void main()

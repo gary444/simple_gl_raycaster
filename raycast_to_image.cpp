@@ -148,7 +148,6 @@ int main(int argc,  char * argv[]) {
         std::cout << "Error initialising GL" << std::endl;
     }
 
-
     grt::gl::Cube cube;
 
     // load a volume
