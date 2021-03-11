@@ -252,7 +252,10 @@ int main(int argc,  char * argv[]) {
 
     glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
     glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
-
+    
+    // TODO parameterise, pass metadata?
+    glm::vec2 refractive_index_bounds (1.f, 1.28175f);
+    glUniform2fv(glGetUniformLocation(rayshader.Program, "refractive_index_bounds"), 1, glm::value_ptr(refractive_index_bounds));
 
     // render full screen quad
     grt::gl::ScreenQuad::render();
