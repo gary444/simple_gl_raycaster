@@ -4,19 +4,19 @@
 // 0: average intensity projection
 // 1: check for any non-zero value
 // 2: schlieren raycast
-#define MODE 0
+#define MODE 1
 
 
-in vec2 pass_TexCoord;
+uniform layout(binding=0, r32f) image3D target_image;
 
+uniform uvec2 target_image_size;
 
 uniform sampler3D volume_texture;
 uniform vec3    max_bounds;
 
-
 uniform vec2 refractive_index_bounds;
 
-layout(location = 0) out vec4 FragColor;
+
 
 const float sampling_distance = 0.001f;
 
@@ -30,7 +30,7 @@ float sample_volume (vec3 sampling_pos) {
 bool inside_volume_bounds(const in vec3 sampling_position)
 {
     return (   all(greaterThanEqual(sampling_position, vec3(0.0)))
-            && all(lessThanEqual(sampling_position, vec3(1.0) )));
+            && all(lessThanEqual(sampling_position, max_bounds )));
 }
 
 
@@ -52,13 +52,26 @@ vec3 get_gradient_at_point (vec3 pnt){
 	return grad;
 }
 
+
+
+
 void main()
 {
+
+    uint idx = uint (gl_VertexID);
+
+
+    // get 2D pixel index
+    uvec2 idx_2d = uvec2( idx % target_image_size.x, idx / target_image_size.x);
+
+    // get ray start point (without jitter)
+                vec3 ray_entry_position; // TODO continue
+
 
     // rays will be cast along X-axis from X=0
     vec3 ray_direction = vec3(1,0,0);
     // so starting point of ray is (0, tex.y, tex.x)
-    vec3 ray_entry_position = vec3(0,pass_TexCoord.y, pass_TexCoord.x);
+    // vec3 ray_entry_position = vec3(0,pass_TexCoord.y, pass_TexCoord.x);
 
     /// One step trough the volume
     vec3 ray_increment      = ray_direction * sampling_distance;
@@ -95,7 +108,6 @@ void main()
     }
 
     sum /= samples;
-    FragColor = out_col;
 #endif 
 
 #if MODE == 1
@@ -106,7 +118,7 @@ void main()
         float sample_val = sample_volume(sampling_pos); 
 
         if (sample_val != 0.f) {
-        	FragColor = vec4(vec3(sample_val),1.f);
+        	// FragColor = vec4(vec3(sample_val),1.f);
         	return;
         }
 
@@ -115,7 +127,6 @@ void main()
         // update the loop termination condition
         inside_volume  = inside_volume_bounds(sampling_pos);
     }
-    FragColor = out_col;
 
 #endif
 
@@ -138,7 +149,6 @@ void main()
         // update the loop termination condition
         inside_volume  = inside_volume_bounds(sampling_pos);
     }
-    FragColor = out_col;
 
 #endif
 

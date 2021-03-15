@@ -9,6 +9,15 @@
 
 GLuint createTexture2D(unsigned const& width, unsigned const& height,
     const char* data);
+
+GLuint createTexture2D(unsigned const& width, 
+                      unsigned const& height,
+                      GLint const& internal_format,
+                      GLenum const& format,
+                      GLenum const& type,
+                      const char* data
+                      );
+
 GLuint createTexture3D(unsigned const& width, unsigned const& height,
     unsigned const& depth, unsigned const channel_size,
     unsigned const channel_count, const char* data);

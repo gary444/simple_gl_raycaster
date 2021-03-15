@@ -39,7 +39,7 @@ public:
 
                 code = Shadinclude::load(shader_path, "#include");
             }
-            catch ( std::ifstream::failure e )
+            catch ( std::ifstream::failure& e )
             {
                 std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
             }
@@ -113,7 +113,7 @@ public:
                 fragmentCode = Shadinclude::load(fragmentPath, "#include");
             }
         }
-        catch ( std::ifstream::failure e )
+        catch ( std::ifstream::failure& e )
         {
             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
         }
