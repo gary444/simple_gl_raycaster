@@ -26,6 +26,11 @@
 #include <glm/gtx/string_cast.hpp>
 
 
+// #define STB_IMAGE_IMPLEMENTATION
+// #include <stbi/stb_image.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_STATIC
+#include <stbi/stb_image_write.h>
 
 #include "helpers/mouse_and_keyboard_callbacks.hpp"
 #include "helpers/util.hpp"
@@ -38,6 +43,7 @@
 #include "gl/ScreenQuad.hpp"
 #include "gl/Textures.hpp"
 #include "gl/GLUtil.hpp"
+#include "gl/GLStructs.hpp"
 
 #include "volume/volume_loader_raw.hpp"
 
@@ -186,6 +192,29 @@ bool read_volume(const std::string& volume_string, grt::gl::Cube& cube){
 }
 
 
+void download_and_save_target_texture(
+        const GLuint texture_id,
+        const uint32_t texture_unit,
+        const glm::uvec2 image_dims,
+        const std::string& file_path
+    ){
+
+    const uint32_t px_per_tex = image_dims.x * image_dims.y;
+    std::vector<float> image (px_per_tex);
+    std::vector<uint8_t> image_quantised (px_per_tex);
+
+    glActiveTexture(GL_TEXTURE0 + texture_unit);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RED, GL_FLOAT, image.data());
+
+    std::transform( image.begin(), image.end(), image_quantised.begin(), [](const auto a) {return uint8_t( glm::clamp(a, 0.f, 1.f) * 255.f );} );
+
+    const std::string path = file_path;
+    stbi_write_png(path.c_str(), image_dims.x, image_dims.y, 1, image_quantised.data(), image_dims.x);
+
+}
+
 
 int main(int argc,  char * argv[]) {
 
@@ -269,13 +298,19 @@ int main(int argc,  char * argv[]) {
     glm::vec2 refractive_index_bounds (1.f, 1.28175f);
     glUniform2fv(glGetUniformLocation(rayshader.Program, "refractive_index_bounds"), 1, glm::value_ptr(refractive_index_bounds));
 
-    // render full screen quad
-    grt::gl::ScreenQuad::render();
 
+    EmptyVAOForDrawingArray::bind();
+    glDrawArrays(GL_POINTS, 0, img_res.x * img_res.y);
+    EmptyVAOForDrawingArray::unbind();
 
-    // download rendered image
-	grt::gl::download_default_framebuffer_to_image(img_res.x, img_res.y, img_out_path);
+    glFinish();
 
+    glBindImageTexture(target_image_unit, 0, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32F);
+
+    glActiveTexture(GL_TEXTURE0 + target_image_unit);
+    glBindTexture(GL_TEXTURE_2D, target_texture);
+
+    download_and_save_target_texture(target_texture, target_image_unit, img_res, "schlieren_output.png");
 
 
     glDeleteTextures(1, &target_texture);

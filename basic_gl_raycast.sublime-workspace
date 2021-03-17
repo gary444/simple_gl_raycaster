@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"target",
+				"target_image_size"
+			],
+			[
+				"volume",
+				"volume_texture"
+			],
+			[
+				"GL_UNSI",
+				"GL_UNSIGNED_BYTE"
+			],
+			[
 				"sample",
 				"sample_volume"
 			],
@@ -54,10 +66,6 @@
 			[
 				"RAT",
 				"RAYCAST_APP_NAME"
-			],
-			[
-				"volume",
-				"volume_path"
 			],
 			[
 				"vole",
@@ -506,46 +514,27 @@
 			[
 				"foun",
 				"found_nodes"
-			],
-			[
-				"bb",
-				"bbmax"
-			],
-			[
-				"bbm",
-				"bbmin"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "raycast_cfd_volume_to_image.cpp",
+			"file": "schlieren_raycast.cpp",
 			"settings":
 			{
-				"buffer_size": 9897,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "raycast_cfd_to_image.cpp"
-			}
-		},
-		{
-			"file": "raycast_to_image.cpp",
-			"settings":
-			{
-				"buffer_size": 4855,
+				"buffer_size": 7852,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/shaders/raycast_cfd.frag",
+			"file": "resources/shaders/schlieren_raycast.vert",
 			"settings":
 			{
-				"buffer_size": 4174,
+				"buffer_size": 4039,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "raycast_cfd.frag"
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -554,8 +543,25 @@
 			{
 				"buffer_size": 3832,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "raycast_orthogonal_cfd.frag"
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "gl/Textures.hpp",
+			"settings":
+			{
+				"buffer_size": 893,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "gl/Textures.cpp",
+			"settings":
+			{
+				"buffer_size": 3832,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -604,12 +610,17 @@
 	],
 	"file_history":
 	[
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.hpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/schlieren_raycast.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Shader.hpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_cfd_volume_to_image.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_to_image.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_cfd.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal_cfd.frag",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/CMakeLists.txt",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.hpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_cfd_volume.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume/volume_loader_raw.hpp",
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_to_image.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal.frag",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/texture_passthrough.vert",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/ScreenQuad.cpp",
@@ -726,16 +737,11 @@
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/grt/gl/Shader.hpp",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/cuda_kernels/CMakeLists.txt",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/apps/4dplayer/CMakeLists.txt",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/CMakeLists.txt",
-		"/home/wabi7015/Programming/lib/libthesis_common.a(FourDPlayer.cpp.o)",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/config.hpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/config.hpp.in",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/src/gl/ViewControls.cpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/cmake/modules/FindGLEW.cmake"
+		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/CMakeLists.txt"
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -814,6 +820,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"FragColor",
+			"failure",
+			"target_image_unit",
+			"volume_texture_unit",
+			"2d",
 			"g_max_volume_bounds",
 			"transparency_epsilon",
 			"float sample_val = texture(volume_texture, sampling_pos).r",
@@ -936,12 +947,7 @@
 			"1.8",
 			"best_",
 			"best",
-			"return 0",
-			"width",
-			"face_ids_ssbo",
-			"shader_storage",
-			"std::cout",
-			"model_"
+			"return 0"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1087,53 +1093,24 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "raycast_cfd_volume_to_image.cpp",
+					"file": "schlieren_raycast.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9897,
+						"buffer_size": 7852,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6943,
-								6943
-							]
-						],
-						"settings":
-						{
-							"auto_name": "raycast_cfd_to_image.cpp",
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2696.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "raycast_to_image.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4855,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4617,
-								4617
+								7293,
+								7293
 							]
 						],
 						"settings":
@@ -1143,45 +1120,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1677.0,
+						"translation.y": 3741.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "resources/shaders/raycast_cfd.frag",
+					"buffer": 1,
+					"file": "resources/shaders/schlieren_raycast.vert",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4174,
+						"buffer_size": 4039,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2311,
-								2311
+								3047,
+								3056
 							]
 						],
 						"settings":
 						{
-							"auto_name": "raycast_cfd.frag",
 							"syntax": "Packages/C++/C.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 1276.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "resources/shaders/raycast_orthogonal_cfd.frag",
 					"semi_transient": false,
 					"settings":
@@ -1193,20 +1169,79 @@
 						"selection":
 						[
 							[
-								532,
-								532
+								670,
+								670
 							]
 						],
 						"settings":
 						{
-							"auto_name": "raycast_orthogonal_cfd.frag",
-							"syntax": "Packages/C++/C.sublime-syntax"
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "gl/Textures.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								499,
+								499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "gl/Textures.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1100,
+								1100
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1259,7 +1294,7 @@
 	"project": "basic_gl_raycast.sublime-project",
 	"replace":
 	{
-		"height": 68.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
