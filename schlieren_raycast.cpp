@@ -310,7 +310,7 @@ int main(int argc,  char * argv[]) {
     glActiveTexture(GL_TEXTURE0 + target_image_unit);
     glBindTexture(GL_TEXTURE_2D, target_texture);
 
-    download_and_save_target_texture(target_texture, target_image_unit, img_res, "schlieren_output.png");
+    download_and_save_target_texture(target_texture, target_image_unit, img_res, "schlieren_output_again.png");
 
 
     glDeleteTextures(1, &target_texture);

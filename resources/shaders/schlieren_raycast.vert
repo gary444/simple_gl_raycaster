@@ -1,12 +1,6 @@
 #version 430 
 
 
-// 0: average intensity projection
-// 1: check for any non-zero value
-// 2: schlieren raycast
-#define MODE 1
-
-
 uniform layout(binding=0, r32f) image2D target_image;
 
 uniform uvec2 target_image_size;
@@ -16,22 +10,24 @@ uniform vec3    max_bounds;
 
 uniform vec2 refractive_index_bounds;
 
+const vec2 pixel_size = vec2(1.f, 1.f) / vec2(target_image_size); 
 
 
-// const float sampling_distance = 0.001f;
+const float sampling_distance = 0.01f;
 
 
-// float sample_volume (vec3 sampling_pos) {
-//     float sample_val = texture(volume_texture, sampling_pos).r;
-//     return sample_val;
-// }
+float sample_volume (vec3 sampling_pos) {
+    vec3 sample_coords = sampling_pos / max_bounds;
+    float sample_val = texture(volume_texture, sample_coords).r;
+    return sample_val;
+}
 
 
-// bool inside_volume_bounds(const in vec3 sampling_position)
-// {
-//     return (   all(greaterThanEqual(sampling_position, vec3(0.0)))
-//             && all(lessThanEqual(sampling_position, max_bounds )));
-// }
+bool inside_volume_bounds(const in vec3 sampling_position)
+{
+    return (   all(greaterThanEqual(sampling_position, vec3(0.0)))
+            && all(lessThanEqual(sampling_position, max_bounds)));
+}
 
 
 // float scale_refractive_index_from_normalised_value(const float val) {
@@ -58,83 +54,84 @@ uniform vec2 refractive_index_bounds;
 void main()
 {
 
+    // get 2D pixel index
     uint idx = uint (gl_VertexID);
-
-
-    // // get 2D pixel index
     uvec2 idx_2d = uvec2( idx % target_image_size.x, idx / target_image_size.x);
 
-    imageStore(target_image, ivec2(idx_2d), vec4(float(idx_2d.x) / target_image_size.x, 0.f, 0.f, 0.f));
 
 
-    // // get ray start point (without jitter)
-    //             vec3 ray_entry_position; // TODO continue
+// test writing to texture ------------
+    // imageStore(target_image, ivec2(idx_2d), vec4(float(idx_2d.x) / target_image_size.x, 0.f, 0.f, 0.f));
 
 
-    // // rays will be cast along X-axis from X=0
-    // vec3 ray_direction = vec3(1,0,0);
-    // // so starting point of ray is (0, tex.y, tex.x)
-    // // vec3 ray_entry_position = vec3(0,pass_TexCoord.y, pass_TexCoord.x);
-
-    // /// One step trough the volume
+// test ray casting in a straight line
+    // // get ray start point in image space (without jitter)
+    // vec2 pos_in_image_space = vec2(idx_2d) * pixel_size;
+    // vec3 ray_entry_position = vec3(pos_in_image_space, 1.f) * max_bounds;
+    // // // rays will be cast along Z-axis from Z=[max z]
+    // vec3 ray_direction = vec3(0,0,-1);
     // vec3 ray_increment      = ray_direction * sampling_distance;
-    // // Position in Volume
-    // vec3 sampling_pos       = ray_entry_position + ray_increment;
-
-    // /// Init color of fragment
-    // vec4 out_col = vec4(0.0, 0.0, 0.0, 1.0);
+    // vec3 sampling_pos       = ray_entry_position + (ray_increment * 0.000001);
 
     // /// check if we are inside volume
     // bool inside_volume = inside_volume_bounds(sampling_pos);
+
+    // if (!inside_volume)
+    //     return;
     
-    // // if (!inside_volume)
-    //     discard;
+    // while (inside_volume) {
+    //     // increment the ray sampling position
+    //     sampling_pos  += ray_increment;
+    //     // update the loop termination condition
+    //     inside_volume  = inside_volume_bounds(sampling_pos);
+    // }
+    // // after we have left the volume, write to image
+    // imageStore(target_image, ivec2(idx_2d), vec4(float(idx_2d.x) / target_image_size.x, 0.f, 0.f, 0.f));
 
 
 
-// #if MODE == 0
-
-//     float sum = 0.f;
-//     float samples = 0.f;
-//     // the traversal loop,
-//     // termination when the sampling position is outside volume boundary
-//     while (inside_volume)
-//     {      
-//         float sample_val = sample_volume(sampling_pos); 
-
-//         sum += sample_val;
-//         samples += 1.f;
-//         // increment the ray sampling position
-//         sampling_pos  += ray_increment;
-//         // update the loop termination condition
-//         inside_volume  = inside_volume_bounds(sampling_pos);
-//     }
-
-//     sum /= samples;
-// #endif 
-
-// #if MODE == 1
 
 
-//     while (inside_volume)
-//     {      
-//         float sample_val = sample_volume(sampling_pos); 
+// test maximum intensity projection in straight line
+    // get ray start point in image space (without jitter)
+    vec2 pos_in_image_space = vec2(idx_2d) * pixel_size;
+    vec3 ray_entry_position = vec3(pos_in_image_space, 1.f) * max_bounds;
+    // // rays will be cast along Z-axis from Z=[max z]
+    vec3 ray_direction = vec3(0,0,-1);
+    vec3 ray_increment      = ray_direction * sampling_distance;
+    vec3 sampling_pos       = ray_entry_position + (ray_increment * 0.000001);
 
-//         if (sample_val != 0.f) {
-//         	// FragColor = vec4(vec3(sample_val),1.f);
-//         	return;
-//         }
+    /// check if we are inside volume
+    bool inside_volume = inside_volume_bounds(sampling_pos);
 
-//         // increment the ray sampling position
-//         sampling_pos  += ray_increment;
-//         // update the loop termination condition
-//         inside_volume  = inside_volume_bounds(sampling_pos);
-//     }
+    if (!inside_volume)
+        return;
+    
+    float max_val = 0.f;
 
-// #endif
+    while (inside_volume) {
+
+        float sample_val = sample_volume(sampling_pos); 
+
+        max_val = max(max_val, sample_val); 
+
+        // increment the ray sampling position
+        sampling_pos  += ray_increment;
+        // update the loop termination condition
+        inside_volume  = inside_volume_bounds(sampling_pos);
+    }
+    // after we have left the volume, write to image
+    imageStore(target_image, ivec2(idx_2d), vec4(max_val, 0.f, 0.f, 0.f));
 
 
-// #if MODE == 2
+
+
+
+    /// Init color of fragment
+    vec4 out_col = vec4(0.0, 0.0, 0.0, 1.0);
+
+
+
 
 
 //     while (inside_volume)
@@ -153,7 +150,7 @@ void main()
 //         inside_volume  = inside_volume_bounds(sampling_pos);
 //     }
 
-// #endif
+
 
 }
 
