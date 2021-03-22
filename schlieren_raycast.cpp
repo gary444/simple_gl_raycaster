@@ -240,10 +240,10 @@ int main(int argc,  char * argv[]) {
     // }
 
 
-    // double util = 0;
-    // if( cmd_option_exists(argv, argv+argc, "-u") ) {
-    //     util = atof(get_cmd_option(argv, argv+argc, "-u"));
-    // }
+    float sampling_distance_factor = 0.f;
+    if( cmd_option_exists(argv, argv+argc, "-s") ) {
+        sampling_distance_factor = atof(get_cmd_option(argv, argv+argc, "-s"));
+    }
 
 
 
@@ -287,6 +287,9 @@ int main(int argc,  char * argv[]) {
 
     glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
 
+
+    glUniform1f(glGetUniformLocation(rayshader.Program, "sampling_distance"), g_sampling_distance * sampling_distance_factor);
+
     glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
     glUniform1i(glGetUniformLocation(rayshader.Program, "target_image"), target_image_unit);
     glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
@@ -310,7 +313,7 @@ int main(int argc,  char * argv[]) {
     glActiveTexture(GL_TEXTURE0 + target_image_unit);
     glBindTexture(GL_TEXTURE_2D, target_texture);
 
-    download_and_save_target_texture(target_texture, target_image_unit, img_res, "schlieren_output_again.png");
+    download_and_save_target_texture(target_texture, target_image_unit, img_res, img_out_path);
 
 
     glDeleteTextures(1, &target_texture);

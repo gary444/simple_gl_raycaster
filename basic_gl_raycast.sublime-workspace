@@ -4,8 +4,44 @@
 		"selected_items":
 		[
 			[
+				"sampl",
+				"sampling_distance_factor"
+			],
+			[
+				"tex",
+				"tex_coords"
+			],
+			[
+				"samplon",
+				"sampling_pos"
+			],
+			[
+				"img",
+				"img_out_path"
+			],
+			[
+				"inside",
+				"inside_volume"
+			],
+			[
+				"max",
+				"max_bounds"
+			],
+			[
+				"pos",
+				"pos_in_image_space"
+			],
+			[
+				"pixe",
+				"pixel_size"
+			],
+			[
 				"target",
 				"target_image_size"
+			],
+			[
+				"idx",
+				"idx_2d"
 			],
 			[
 				"volume",
@@ -22,10 +58,6 @@
 			[
 				"refr",
 				"refractive_index_gradient"
-			],
-			[
-				"sampl",
-				"sampling_distance"
 			],
 			[
 				"sapl",
@@ -48,16 +80,8 @@
 				"out_col"
 			],
 			[
-				"max",
-				"max_value"
-			],
-			[
 				"ray",
 				"ray_direction"
-			],
-			[
-				"img",
-				"img_res"
 			],
 			[
 				"resou",
@@ -412,10 +436,6 @@
 				"num_cells_per_block"
 			],
 			[
-				"tex",
-				"texture_update_pbo_back_"
-			],
-			[
 				"is_",
 				"is_back_buffer_mapped_"
 			],
@@ -494,26 +514,6 @@
 			[
 				"cells",
 				"cellsPerNode"
-			],
-			[
-				"tsdf",
-				"tsdf_frame"
-			],
-			[
-				"single",
-				"single_idx_to_original_idx"
-			],
-			[
-				"nodes",
-				"nodes_per_depth_level"
-			],
-			[
-				"svoM",
-				"svoMinDepth"
-			],
-			[
-				"foun",
-				"found_nodes"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "schlieren_raycast.cpp",
 			"settings":
 			{
-				"buffer_size": 7852,
+				"buffer_size": 9273,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -532,16 +532,7 @@
 			"file": "resources/shaders/schlieren_raycast.vert",
 			"settings":
 			{
-				"buffer_size": 4039,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "resources/shaders/raycast_orthogonal_cfd.frag",
-			"settings":
-			{
-				"buffer_size": 3832,
+				"buffer_size": 7417,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -610,18 +601,20 @@
 	],
 	"file_history":
 	[
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_to_image.cpp",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal_cfd.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast.vert",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_cfd.frag",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/GLStructs.hpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/schlieren_raycast.frag",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Shader.hpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_cfd_volume_to_image.cpp",
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_to_image.cpp",
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_cfd.frag",
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal_cfd.frag",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/CMakeLists.txt",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.hpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/raycast_cfd_volume.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/Textures.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume/volume_loader_raw.hpp",
-		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/raycast_orthogonal.frag",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders/texture_passthrough.vert",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/ScreenQuad.cpp",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/gl/ScreenQuad.hpp",
@@ -735,9 +728,7 @@
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/apps/projective_texturing_renderer/main.cpp",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/grt/gl/Shadinclude.hpp",
 		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/include/grt/gl/Shader.hpp",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/cuda_kernels/CMakeLists.txt",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/apps/4dplayer/CMakeLists.txt",
-		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/common/CMakeLists.txt"
+		"/home/hoqe4365/Documents/repos/Temporal_TSDF_SVO/cuda_kernels/CMakeLists.txt"
 	],
 	"find":
 	{
@@ -820,6 +811,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"g_sampling_distance",
+			"get_gradient_at_point",
+			"scale_refractive_index_from_normalised_value",
+			"img_out_path",
+			"target_image",
+			"glBindTexture",
 			"FragColor",
 			"failure",
 			"target_image_unit",
@@ -941,13 +938,7 @@
 			"final_",
 			"model_scale",
 			"initial_model_scaling",
-			"1.5",
-			"1.505",
-			"model_scale",
-			"1.8",
-			"best_",
-			"best",
-			"return 0"
+			"1.5"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1102,15 +1093,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7852,
+						"buffer_size": 9273,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7293,
-								7293
+								8053,
+								8053
 							]
 						],
 						"settings":
@@ -1119,8 +1110,8 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 3741.0,
+						"translation.x": 171.0,
+						"translation.y": 4156.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1132,15 +1123,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4039,
+						"buffer_size": 7417,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3047,
-								3056
+								6624,
+								6624
 							]
 						],
 						"settings":
@@ -1150,7 +1141,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1276.0,
+						"translation.y": 2690.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1158,36 +1149,6 @@
 				},
 				{
 					"buffer": 2,
-					"file": "resources/shaders/raycast_orthogonal_cfd.frag",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3832,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								670,
-								670
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "gl/Textures.hpp",
 					"semi_transient": false,
 					"settings":
@@ -1205,17 +1166,19 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "gl/Textures.cpp",
 					"semi_transient": false,
 					"settings":
@@ -1241,7 +1204,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1303,6 +1266,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"glstruc",
+				"gl/GLStructs.hpp"
+			],
 			[
 				"raycast",
 				"resources/shaders/raycast_occupancy.frag"
@@ -1810,10 +1777,6 @@
 			[
 				"kway prepro",
 				"apps/kway_ttree_preprocessor/main.cpp"
-			],
-			[
-				"multi prepro main",
-				"apps/multi_kway_ttree_preprocessor/main.cpp"
 			]
 		],
 		"width": 0.0
