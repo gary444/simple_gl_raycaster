@@ -47,3 +47,22 @@ std::vector<std::string> get_file_paths_from_directory(const std::string& indir,
 
     return img_paths;
 }
+
+
+glm::uvec3 get_3d_index(uint32_t singleIndex, const glm::uvec3& gridRes){
+    glm::uvec3 result (0,0,0);
+    result.z = singleIndex / (gridRes.x*gridRes.y);
+    singleIndex -= result.z * gridRes.x* gridRes.y;
+    result.y = singleIndex / gridRes.x;
+    result.x = singleIndex % gridRes.x;
+
+    return result;
+}
+
+uint32_t get_1d_index(const glm::uvec3& multiIndex, const glm::uvec3& gridRes){
+    return (multiIndex.x + gridRes.x * (multiIndex.y + multiIndex.z*gridRes.y ) );
+}
+
+uint32_t get_1d_index(const glm::uvec2& two_d_index, const glm::uvec2& grid_res) {
+    return two_d_index.x + two_d_index.y*grid_res.x;
+}

@@ -154,6 +154,60 @@ const GLuint volume_texture_unit = 1;
 
 GLuint volume_texture = 0;
 
+void get_volume_y_slice() {
+
+    std::cout << "Getting slice of volume" << std::endl;
+    // take Y slice of volume
+
+    const glm::uvec2 slice_dims (g_vol_dimensions.x, g_vol_dimensions.z);
+    volume_data_type slice (slice_dims.x * slice_dims.y);
+
+    const uint32_t y_slice = g_vol_dimensions.y * 0.5f;
+    const uint32_t row_size = g_vol_dimensions.x;
+    // take X rows of 3D vol and copy them to slice
+
+    for (uint32_t sy = 0; sy < slice_dims.y; ++sy){
+            
+        const glm::uvec3 src_row_start_3d_idx (0, y_slice, sy);
+        const uint32_t   src_row_start_1d_idx = get_1d_index(src_row_start_3d_idx, g_vol_dimensions);
+
+        const glm::uvec2 dest_row_start_2d_idx (0, sy);
+        const uint32_t   dest_row_start_1d_idx = get_1d_index(dest_row_start_2d_idx, slice_dims);
+
+        std::copy (&(g_volume_data[src_row_start_1d_idx]), &(g_volume_data[src_row_start_1d_idx+row_size]), &(slice[dest_row_start_1d_idx]) );
+    }
+
+    const std::string outpath = "slice_0.5.png";
+    // assume data type is 8-bit uint
+    stbi_write_png(outpath.c_str(), slice_dims.x, slice_dims.y, 1, slice.data(), slice_dims.x);
+
+    std::cout << "Slice written to path: " << outpath << std::endl;
+}
+
+void get_volume_z_slice() {
+
+    std::cout << "Getting z slice of volume" << std::endl;
+    // take Y slice of volume
+
+    const glm::uvec2 slice_dims (g_vol_dimensions.x, g_vol_dimensions.y);
+    volume_data_type slice (slice_dims.x * slice_dims.y);
+
+    const uint32_t z_slice = g_vol_dimensions.z * 0.5f;
+    const uint32_t slice_size = slice_dims.x * slice_dims.y;
+    // take X rows of 3D vol and copy them to slice
+
+            
+    const glm::uvec3 src_row_start_3d_idx (0, 0, z_slice);
+    const uint32_t   src_row_start_1d_idx = get_1d_index(src_row_start_3d_idx, g_vol_dimensions);
+
+    std::copy (&(g_volume_data[src_row_start_1d_idx]), &(g_volume_data[src_row_start_1d_idx+slice_size]), slice.data() );
+
+    const std::string outpath = "z_slice_0.5.png";
+    // assume data type is 8-bit uint
+    stbi_write_png(outpath.c_str(), slice_dims.x, slice_dims.y, 1, slice.data(), slice_dims.x);
+
+    std::cout << "Slice written to path: " << outpath << std::endl;
+}
 
 bool read_volume(const std::string& volume_string, grt::gl::Cube& cube){
 
@@ -240,7 +294,7 @@ int main(int argc,  char * argv[]) {
     // }
 
 
-    float sampling_distance_factor = 0.f;
+    float sampling_distance_factor = 1.f;
     if( cmd_option_exists(argv, argv+argc, "-s") ) {
         sampling_distance_factor = atof(get_cmd_option(argv, argv+argc, "-s"));
     }
@@ -273,6 +327,10 @@ int main(int argc,  char * argv[]) {
     }
 
     std::cout << "Created volume" << std::endl;
+
+    // get_volume_y_slice();
+    // get_volume_z_slice();
+    // return 0;
 
     // create target texture and bind as image unit  
     GLuint target_texture = createTexture2D(img_res.x, img_res.y, GL_R32F, GL_RED, GL_FLOAT, nullptr);

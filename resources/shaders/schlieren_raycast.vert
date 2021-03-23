@@ -18,7 +18,7 @@ const vec2 pixel_size = vec2(1.f, 1.f) / vec2(target_image_size);
 
 // Brownlee: The value k typically maps to the largest expected
 // displacement as to yield normalized intensities without clamping 
-const float k = 0.f;
+const float k = 100.f;
 
 
 // rays travel from z=1 to z=0
