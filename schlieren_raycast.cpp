@@ -151,6 +151,7 @@ auto perspective_mat =
 
 const GLuint target_image_unit = 0;
 const GLuint volume_texture_unit = 1;
+const GLuint debug_image_unit = 2;
 
 GLuint volume_texture = 0;
 
@@ -280,7 +281,7 @@ int main(int argc,  char * argv[]) {
     { 
         std::cout << "simple volume raycasting app\n";
         std::cout << "usage: <app_name> <path_to_volume> <output image width> <output image height> [options...] \nOptions:\n";
-        // std::cout << "\t-f:  \n";
+        std::cout << "\t-z: set active volume slice (e.g. -z 0.55 0.45)\n";
 
         return -1;
     }
@@ -294,16 +295,22 @@ int main(int argc,  char * argv[]) {
     // }
 
 
+
     float sampling_distance_factor = 1.f;
     if( cmd_option_exists(argv, argv+argc, "-s") ) {
         sampling_distance_factor = atof(get_cmd_option(argv, argv+argc, "-s"));
     }
 
-
+    float z_slice_start = 0.51f, z_slice_end = 0.5;
+    if (cmd_option_exists(argv, argv+argc, "-z")){
+        const std::vector<float> vec = get_list_from_args(argv, argv+argc, "-z", 2);
+        z_slice_start = vec[0];
+        z_slice_end   = vec[1];
+    }
 
     // const std::string volume_path = argv[1];
     const std::string img_out_path = argv[2];
-    const glm::vec2 img_res ( atoi(argv[3]), atoi(argv[4]) );
+    const glm::vec2   img_res ( atoi(argv[3]), atoi(argv[4]) );
 
     std::cout << "Render resolution: " << glm::to_string(img_res) << std::endl;
 
@@ -329,12 +336,18 @@ int main(int argc,  char * argv[]) {
     std::cout << "Created volume" << std::endl;
 
     // get_volume_y_slice();
-    // get_volume_z_slice();
+    get_volume_z_slice();
     // return 0;
 
     // create target texture and bind as image unit  
     GLuint target_texture = createTexture2D(img_res.x, img_res.y, GL_R32F, GL_RED, GL_FLOAT, nullptr);
     glBindImageTexture(target_image_unit, target_texture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32F);
+
+
+    // create debug texture
+    const uint32_t min_d = std::min(img_res.x, img_res.y);
+    GLuint debug_texture = createTexture2D(min_d, min_d, GL_R32F, GL_RED, GL_FLOAT, nullptr);
+    glBindImageTexture(debug_image_unit, debug_texture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
 
 
 
@@ -347,9 +360,14 @@ int main(int argc,  char * argv[]) {
 
 
     glUniform1f(glGetUniformLocation(rayshader.Program, "sampling_distance"), g_sampling_distance * sampling_distance_factor);
+    
+    glUniform1f(glGetUniformLocation(rayshader.Program, "z_slice_start"), z_slice_start);
+    glUniform1f(glGetUniformLocation(rayshader.Program, "z_slice_end"),   z_slice_end);
 
     glUniform1i(glGetUniformLocation(rayshader.Program, "volume_texture"), volume_texture_unit);
-    glUniform1i(glGetUniformLocation(rayshader.Program, "target_image"), target_image_unit);
+    glUniform1i(glGetUniformLocation(rayshader.Program, "target_image"),   target_image_unit);
+    glUniform1i(glGetUniformLocation(rayshader.Program, "debug_image"),    debug_image_unit);
+
     glUniform3fv(glGetUniformLocation(rayshader.Program, "max_bounds"), 1, glm::value_ptr(g_max_volume_bounds));
 
     glUniform2ui(glGetUniformLocation(rayshader.Program, "target_image_size"), img_res.x, img_res.y);
@@ -372,6 +390,8 @@ int main(int argc,  char * argv[]) {
     glBindTexture(GL_TEXTURE_2D, target_texture);
 
     download_and_save_target_texture(target_texture, target_image_unit, img_res, img_out_path);
+    
+    download_and_save_target_texture(debug_texture, debug_image_unit, glm::uvec2(min_d, min_d), "debug.png");
 
 
     glDeleteTextures(1, &target_texture);

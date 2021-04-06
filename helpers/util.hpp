@@ -15,6 +15,24 @@ bool cmd_option_exists(char** begin, char** end, const std::string& option) {
     return std::find(begin, end, option) != end;
 }
 
+std::vector<float> get_list_from_args(char** begin, char** end, const std::string& option, const int num_args){
+
+    std::vector<float> rtn_vec (num_args);
+
+    char** it = std::find(begin, end, option);
+    int elements = 0;
+    if (it != end && it+1 != end){
+        while (++it != end && elements < num_args) {
+            rtn_vec[elements++] = atof(*it);
+        }
+    }
+    if (elements < num_args-1){
+        throw std::logic_error("not enough elements found for cmd option: " + option);
+    }
+    return rtn_vec;
+}
+
+
 bool hasEnding (const std::string& fullString, const std::string& ending) {
     if (fullString.length() >= ending.length()) {
         return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));

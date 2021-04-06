@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"slice",
+				"slice_size"
+			],
+			[
+				"dest",
+				"dest_row_start_1d_idx"
+			],
+			[
+				"row",
+				"row_size"
+			],
+			[
+				"src",
+				"src_row_start_1d_idx"
+			],
+			[
+				"g_vol",
+				"g_volume_data"
+			],
+			[
+				"volu",
+				"volume_data_type"
+			],
+			[
 				"sampl",
 				"sampling_pos"
 			],
@@ -490,30 +514,6 @@
 			[
 				"dept",
 				"depth_id"
-			],
-			[
-				"node",
-				"node_ids_per_depth_level"
-			],
-			[
-				"found",
-				"found_node_id"
-			],
-			[
-				"sdv",
-				"svoMinDepth"
-			],
-			[
-				"TSDF",
-				"TSDF_Frame"
-			],
-			[
-				"bbo",
-				"bbox_file_path"
-			],
-			[
-				"cells",
-				"cellsPerNode"
 			]
 		]
 	},
@@ -523,7 +523,25 @@
 			"file": "schlieren_raycast.cpp",
 			"settings":
 			{
-				"buffer_size": 9273,
+				"buffer_size": 11519,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "resources/shaders/schlieren_raycast.vert",
+			"settings":
+			{
+				"buffer_size": 7972,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "helpers/util.hpp",
+			"settings":
+			{
+				"buffer_size": 2054,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -588,6 +606,7 @@
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/helpers",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/resources/shaders",
+		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/third_party",
 		"/home/hoqe4365/Documents/repos/simple_gl_raycaster/volume"
 	],
 	"file_history":
@@ -802,6 +821,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"return",
+			"get_volume_z_slice",
+			"get_volume_slice",
+			"g_vol_dimensions",
+			"get_volume_slice",
+			"read_volume",
+			"g_volume_data",
 			"k",
 			"ray_direction",
 			"g_sampling_distance",
@@ -922,14 +948,7 @@
 			"1.8",
 			"early",
 			"5",
-			"translation_range",
-			"early",
-			"return -",
-			"Done",
-			"in_param",
-			"out_param_file_string",
-			"final_",
-			"model_scale"
+			"translation_range"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1084,15 +1103,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9273,
+						"buffer_size": 11519,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8053,
-								8053
+								9469,
+								9469
 							]
 						],
 						"settings":
@@ -1101,8 +1120,8 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 171.0,
-						"translation.y": 4156.0,
+						"translation.x": 0.0,
+						"translation.y": 4924.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1110,6 +1129,66 @@
 				},
 				{
 					"buffer": 1,
+					"file": "resources/shaders/schlieren_raycast.vert",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7972,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1139,
+								1139
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "helpers/util.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2054,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1470,
+								1470
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 154.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "gl/Textures.hpp",
 					"semi_transient": false,
 					"settings":
@@ -1135,11 +1214,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "gl/Textures.cpp",
 					"semi_transient": false,
 					"settings":
@@ -1165,7 +1244,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]

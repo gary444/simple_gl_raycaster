@@ -3,10 +3,19 @@
 #define MODE 4
 
 uniform layout(binding=0, r32f) image2D target_image;
+uniform layout(binding=0, r32f) image2D debug_image;
 
 uniform float sampling_distance;
 
+// rays travel from z=1 to z=0
+uniform float z_slice_start = 0.51f;
+uniform float z_slice_end   = 0.5f;
+
 uniform uvec2 target_image_size;
+
+// uint debug_image_size = min(target_image_size.x, target_image_size.y);
+// uvec2 debug_image_dims    = uvec2(debug_image_size, debug_image_size);    
+uvec2 debug_image_dims    = uvec2(1600, 1600);    
 
 uniform sampler3D volume_texture;
 uniform vec3    max_bounds;
@@ -22,8 +31,8 @@ const float k = 100.f;
 
 
 // rays travel from z=1 to z=0
-const float z_slice_start = 0.51f;
-const float z_slice_end   = 0.5f;
+// const float z_slice_start = 0.51f;
+// const float z_slice_end   = 0.5f;
 
 float sample_volume (vec3 sampling_pos) {
     vec3 sample_coords = sampling_pos / max_bounds;
@@ -66,6 +75,7 @@ void main()
     // get 2D pixel index
     uint idx = uint (gl_VertexID);
     uvec2 idx_2d = uvec2( idx % target_image_size.x, idx / target_image_size.x);
+
 
 
 #if MODE == 0
@@ -185,14 +195,20 @@ void main()
 
     bool inside_volume = true;
 
+
+    bool DEBUG = (idx_2d.y == (target_image_size.y * 0.5f)) && (idx_2d.x % 20 == 0);
+
     
     while (inside_volume)
     {      
-        const float sample_val = sample_volume(sampling_pos); 
-        const float refractive_index = scale_refractive_index_from_normalised_value(sample_val);
-        const vec3  refractive_index_gradient = get_gradient_at_point(sampling_pos);
 
-        if (sampling_pos.z < z_slice_start && sampling_pos.z > z_slice_end ){
+        const float normalized_z = sampling_pos.z / max_bounds.z;
+
+        if (normalized_z < z_slice_start && normalized_z > z_slice_end ){
+
+            const float sample_val = sample_volume(sampling_pos); 
+            const float refractive_index = scale_refractive_index_from_normalised_value(sample_val);
+            const vec3  refractive_index_gradient = get_gradient_at_point(sampling_pos);
 
             // increment the ray sampling position (according to Brownlee eq. 7)
             sampling_pos += (ray_direction * sampling_distance / refractive_index);
@@ -205,10 +221,14 @@ void main()
             sampling_pos += (ray_direction * sampling_distance);
         }
 
+        if (DEBUG) {
+            const uvec2 debug_tex_coords = uvec2((sampling_pos.xz / max_bounds.xz) * vec2(debug_image_dims) );
+            imageStore(debug_image, ivec2(debug_tex_coords), vec4(1.f, 0.f, 0.f, 0.f));
+        }
+
         // update the loop termination condition
         inside_volume  = inside_volume_bounds(sampling_pos);
     }
-
 
 
     // TODO find exact intersection with image plane (Z = 0)
@@ -216,7 +236,6 @@ void main()
     if (sampling_pos.z <= 0.f
         && (sampling_pos.x >= 0.f && sampling_pos.x < max_bounds.x && sampling_pos.y >= 0.f && sampling_pos.y < max_bounds.y) )
     {
-
 
         // cutoff simulation
         // eq9 
