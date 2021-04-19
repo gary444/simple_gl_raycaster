@@ -2,7 +2,7 @@
 
 #define MODE 4
 
-uniform layout(binding=0, r32f) image2D target_image;
+uniform layout(binding=3, r32f) image2D target_image;
 uniform layout(binding=0, r32f) image2D debug_image;
 
 uniform float sampling_distance;

@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"debug",
+				"debug_image_size"
+			],
+			[
+				"debug_",
+				"debug_image_unit"
+			],
+			[
+				"uint",
+				"uint32_t"
+			],
+			[
+				"z_slice",
+				"z_slice_start"
+			],
+			[
+				"z_sic",
+				"z_slice_end"
+			],
+			[
 				"slice",
 				"slice_size"
 			],
@@ -494,26 +514,6 @@
 			[
 				"initGL",
 				"initGlComponents"
-			],
-			[
-				"PROJ",
-				"PROJECT_SOURCES"
-			],
-			[
-				"CM",
-				"CMAKE_SOURCE_DIR"
-			],
-			[
-				"A",
-				"USE_ARMADILLO_APPS"
-			],
-			[
-				"req",
-				"reqd_frames_since_start"
-			],
-			[
-				"dept",
-				"depth_id"
 			]
 		]
 	},
@@ -523,17 +523,16 @@
 			"file": "schlieren_raycast.cpp",
 			"settings":
 			{
-				"buffer_size": 11519,
+				"buffer_size": 12528,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/shaders/schlieren_raycast.vert",
+			"file": "CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 7972,
-				"encoding": "UTF-8",
+				"buffer_size": 6770,
 				"line_ending": "Unix"
 			}
 		},
@@ -541,7 +540,7 @@
 			"file": "helpers/util.hpp",
 			"settings":
 			{
-				"buffer_size": 2054,
+				"buffer_size": 2578,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -742,7 +741,7 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -821,6 +820,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"boost",
+			"pixel_size",
+			"z_slice_start",
+			"sampling_distance",
+			"download_and_save_target_texture",
+			"target_image_unit",
+			"cmd_option_exists",
 			"return",
 			"get_volume_z_slice",
 			"get_volume_slice",
@@ -941,14 +947,7 @@
 			"triangle_ssbo",
 			"render_pure",
 			"write",
-			"model_scale",
-			"initial_model_scaling",
-			"early_term",
-			"0.4",
-			"1.8",
-			"early",
-			"5",
-			"translation_range"
+			"model_scale"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1094,7 +1093,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1103,15 +1102,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11519,
+						"buffer_size": 12528,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9469,
-								9469
+								12528,
+								12528
 							]
 						],
 						"settings":
@@ -1121,32 +1120,32 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4924.0,
+						"translation.y": 5107.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "resources/shaders/schlieren_raycast.vert",
-					"semi_transient": false,
+					"file": "CMakeLists.txt",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 7972,
+						"buffer_size": 6770,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1139,
-								1139
+								1643,
+								1644
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.sublime-syntax",
+							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -1154,7 +1153,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1163,15 +1162,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2054,
+						"buffer_size": 2578,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1470,
-								1470
+								516,
+								516
 							]
 						],
 						"settings":
@@ -1181,7 +1180,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 154.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1252,7 +1251,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -1297,7 +1296,7 @@
 	"project": "basic_gl_raycast.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

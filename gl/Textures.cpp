@@ -79,14 +79,14 @@ GLuint createTexture3D(unsigned const& width, unsigned const& height,
   glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   if (channel_size == 1)
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, width, height, depth, 0, GL_RED,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0, GL_RED,
         GL_UNSIGNED_BYTE, data);
 
   if (channel_size == 2)
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, width, height, depth, 0, GL_RED,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0, GL_RED,
         GL_UNSIGNED_SHORT, data);
 
-  // glBindTexture(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_3D, 0);
   
   return tex;
 }
@@ -111,14 +111,14 @@ GLuint createTexture3D(unsigned const& width, unsigned const& height,
   glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   // if (channel_size == 1)
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, width, height, depth, 0, GL_RED,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R8, width, height, depth, 0, GL_RED,
         type, data);
 
   // if (channel_size == 2)
   //   glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, width, height, depth, 0, GL_RED,
   //       GL_UNSIGNED_SHORT, data);
 
-  // glBindTexture(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_3D, 0);
   
   return tex;
 }

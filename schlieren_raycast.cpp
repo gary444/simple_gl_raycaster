@@ -149,9 +149,15 @@ float rendering_clip_far  = 1000.0f;
 auto perspective_mat = 
     glm::perspective(glm::radians(rendering_field_of_view), (float)WIDTH / (float)HEIGHT, rendering_clip_near, rendering_clip_far);
 
-const GLuint target_image_unit = 0;
+const GLuint target_image_unit = 3;
+const GLuint debug_image_unit = 0;
+
 const GLuint volume_texture_unit = 1;
-const GLuint debug_image_unit = 2;
+
+const GLuint vol_texture_image_unit = 1;
+const GLuint vol_texture_smoothed_image_unit = 2;
+
+
 
 GLuint volume_texture = 0;
 
@@ -239,7 +245,7 @@ bool read_volume(const std::string& volume_string, grt::gl::Cube& cube){
     cube.freeVAO();
     cube = grt::gl::Cube(glm::vec3(0.0, 0.0, 0.0), g_max_volume_bounds);
 
-    glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
+    // glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
     volume_texture = createTexture3D(g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z, g_channel_size, g_channel_count, GL_UNSIGNED_BYTE, (char*)&g_volume_data[0]);
 
     return 0 != volume_texture;
@@ -282,6 +288,7 @@ int main(int argc,  char * argv[]) {
         std::cout << "simple volume raycasting app\n";
         std::cout << "usage: <app_name> <path_to_volume> <output image width> <output image height> [options...] \nOptions:\n";
         std::cout << "\t-z: set active volume slice (e.g. -z 0.55 0.45)\n";
+        std::cout << "\t-smooth: apply gaussian filter to volume texture\n";
 
         return -1;
     }
@@ -324,6 +331,8 @@ int main(int argc,  char * argv[]) {
 
     grt::gl::Cube cube;
 
+    glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
+
 
     // load a volume
     std::cout << "Reading Volume..." << std::endl;
@@ -335,6 +344,52 @@ int main(int argc,  char * argv[]) {
 
     std::cout << "Created volume" << std::endl;
 
+        //smooth if required
+    if (cmd_option_exists(argv, argv+argc, "-smooth")){
+
+        const uint32_t num_voxels = g_vol_dimensions.x * g_vol_dimensions.y * g_vol_dimensions.z;
+
+
+        GLuint volume_texture_smoothed = createTexture3D(g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z, g_channel_size, g_channel_count, GL_UNSIGNED_BYTE, nullptr);
+
+        glBindImageTexture(vol_texture_image_unit,          volume_texture, 0, GL_TRUE, 0, GL_READ_WRITE, GL_R8);
+        glBindImageTexture(vol_texture_smoothed_image_unit, volume_texture_smoothed, 0, GL_TRUE, 0, GL_READ_WRITE, GL_R8);
+
+
+        grt::gl::Shader smoothing_shader(GL_VERTEX_SHADER, "resources/shaders/gaussian_smoothing.vert");
+        smoothing_shader.Use();
+
+        glUniform3ui(glGetUniformLocation(smoothing_shader.Program, "volume_dimensions"), g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z);
+
+        EmptyVAOForDrawingArray::bind();
+        glDrawArrays(GL_POINTS, 0, num_voxels);
+        EmptyVAOForDrawingArray::unbind();
+
+        glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+        grt::gl::Shader copy_shader(GL_VERTEX_SHADER, "resources/shaders/copy_volume.vert");
+        copy_shader.Use();
+
+        // glUniform1i(glGetUniformLocation(copy_shader.Program, "dest_volume"), vol_texture_image_unit);
+        // glUniform1i(glGetUniformLocation(copy_shader.Program, "source_volume"), vol_texture_smoothed_image_unit);
+        glUniform3ui(glGetUniformLocation(copy_shader.Program, "volume_dimensions"), g_vol_dimensions.x, g_vol_dimensions.y, g_vol_dimensions.z);
+
+
+        EmptyVAOForDrawingArray::bind();
+        glDrawArrays(GL_POINTS, 0, num_voxels);
+        EmptyVAOForDrawingArray::unbind();
+
+        glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+        std::cout << "Smoothed volume" << std::endl;
+
+        // clear up
+        glBindImageTexture(vol_texture_image_unit,          0, 0, GL_TRUE, 0, GL_READ_WRITE, GL_R8);
+        glBindImageTexture(vol_texture_smoothed_image_unit, 0, 0, GL_TRUE, 0, GL_READ_WRITE, GL_R8);
+        glDeleteTextures(1, &volume_texture_smoothed);
+    }
+
+
+
     // get_volume_y_slice();
     get_volume_z_slice();
     // return 0;
@@ -342,6 +397,8 @@ int main(int argc,  char * argv[]) {
     // create target texture and bind as image unit  
     GLuint target_texture = createTexture2D(img_res.x, img_res.y, GL_R32F, GL_RED, GL_FLOAT, nullptr);
     glBindImageTexture(target_image_unit, target_texture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32F);
+
+
 
 
     // create debug texture
@@ -357,6 +414,8 @@ int main(int argc,  char * argv[]) {
 	rayshader.Use();  
 
     glActiveTexture(GL_TEXTURE0 + volume_texture_unit);
+    glBindTexture(GL_TEXTURE_3D, volume_texture);
+
 
 
     glUniform1f(glGetUniformLocation(rayshader.Program, "sampling_distance"), g_sampling_distance * sampling_distance_factor);
